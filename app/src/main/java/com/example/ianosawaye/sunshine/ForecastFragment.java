@@ -38,11 +38,11 @@ public class ForecastFragment extends Fragment
             weekForecast.add("Today-Sunny-88/" + i * 2);
         }
 
-        ArrayAdapter<String> Adapter = new ArrayAdapter<String>(getActivity()
+        ArrayAdapter<String> textAdapter = new ArrayAdapter<String>(getActivity()
                 , R.layout.list_item_forecast, R.id.list_item_forecast_textview, weekForecast);
 
         ListView forecastList = (ListView) rootView.findViewById(R.id.listview_forecast);
-        forecastList.setAdapter(Adapter);
+        forecastList.setAdapter(textAdapter);
 
 
         return rootView;
