@@ -84,16 +84,23 @@ public class ForecastFragment extends Fragment
     public class FetchWeatherTask extends AsyncTask< String ,Void ,Void>
     {
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
+        private final String START_PATH = "http://api.openweathermap.org/data/2.5/forecast/daily?" ;
+        private final String MODE = "json";
+        private final String UNITS = "metric";
+        private final Integer COUNT = 7;
 
         @Override
         protected Void doInBackground(String ... params)
         {
 
-           Uri startPath = Uri.parse("http://api.openweathermap.org/data/2.5/forecast/daily");
+            Uri startPath = Uri.parse(START_PATH);
             Uri.Builder builder = startPath.buildUpon();
 
-            builder.appendEncodedPath("?q="+params[0]);
-            builder.appendEncodedPath("&mode=json&units=metric&cnt=7");
+            final Uri finalPath =  builder.appendQueryParameter("q", params[0]).
+            appendQueryParameter("mode",MODE).appendQueryParameter("units",UNITS).
+            appendQueryParameter("cnt",Integer.toString(COUNT)).build();
+
+            Log.v(LOG_TAG,"Final Path: "+ finalPath.toString());
 
 
             // These two need to be declared outside the try/catch
@@ -111,9 +118,7 @@ public class ForecastFragment extends Fragment
                 // http://openweathermap.org/API#forecast
                // URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7");
 
-                URL url = new URL(builder.toString());
-
-                Log.v(LOG_TAG,"url:"+builder.toString());
+                URL url = new URL(finalPath.toString());
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
