@@ -4,14 +4,17 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 
 public class DetailActivity extends ActionBarActivity {
 
@@ -23,7 +26,7 @@ public class DetailActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_detail);
         if (savedInstanceState == null) {
-            PlaceholderFragment details = new PlaceholderFragment();
+            DetailFragment details = new DetailFragment();
             details.setArguments(getIntent().getExtras());
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, details)
@@ -59,9 +62,15 @@ public class DetailActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class DetailFragment extends Fragment {
 
-        public PlaceholderFragment() {
+        private static final String LOG_TAG = DetailFragment.class.getSimpleName();
+
+        private static final String FORECAST_SHARE_HASHTAG = " #SunshineApp";
+        private String mForecastStr;
+
+        public DetailFragment() {
+            setHasOptionsMenu(true);
         }
 
         @Override
@@ -69,24 +78,40 @@ public class DetailActivity extends ActionBarActivity {
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
-            String forecastData = getArguments().getString(Intent.EXTRA_TEXT);
-            TextView Date = (TextView) rootView.findViewById(R.id.date);
-            TextView High = (TextView) rootView.findViewById(R.id.high);
-            TextView Low = (TextView) rootView.findViewById(R.id.low);
-            TextView Condition = (TextView) rootView.findViewById(R.id.condition);
+            mForecastStr = getArguments().getString(Intent.EXTRA_TEXT);
+            TextView Data = (TextView) rootView.findViewById(R.id.textView);
+            Data.setText(mForecastStr);
 
-            String[] parts = forecastData.split("-");
-            Date.setTextSize(15);
-            Condition.setTextSize(15);
-            Date.setText(parts[0]);
-            Condition.setText(parts[1]);
-
-            String[] highLow = parts[2].split("/");
-            High.setTextSize(25);
-            Low.setTextSize(25);
-            High.setText(highLow[0]);
-            Low.setText(highLow[1]);
             return rootView;
+        }
+
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+        {
+            // Inflate the menu; this adds items to the action bar if it is present.
+            inflater.inflate(R.menu.detailfragment, menu);
+
+            MenuItem menuItem = menu.findItem(R.id.action_share);
+            ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+
+            if(mShareActionProvider !=null)
+            {
+                mShareActionProvider.setShareIntent(createShareForecastIntent());
+            }
+            else
+            {
+                Log.d(LOG_TAG, "Share Action Provider is null?");
+            }
+        }
+
+
+        private Intent createShareForecastIntent()
+        {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, mForecastStr+FORECAST_SHARE_HASHTAG);
+            return shareIntent;
         }
     }
 }

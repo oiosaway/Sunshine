@@ -95,7 +95,34 @@ public class ForecastFragment extends Fragment
 
             return true;
         }
+        else if(id == R.id.action_show_on_map)
+        {
+
+            showMap();
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showMap()
+    {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = preferences.getString(getString(R.string.pref_location_key),getString(R.string.pref_location_default));
+
+        Uri startPath = Uri.parse("geo:0,0?");
+        Uri.Builder builder = startPath.buildUpon();
+
+        final Uri geoLocation = builder.appendQueryParameter("q",location).build();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+
+        if(intent.resolveActivity(getActivity().getApplicationContext().getPackageManager()) != null) {
+            startActivity(intent);
+        }
+        else
+        {
+            Log.d("SHOWMAP", "Couldnt call "+location );
+        }
     }
 
     private void updateWeather()
@@ -231,6 +258,22 @@ public class ForecastFragment extends Fragment
          * Prepare the weather high/lows for presentation.
          */
         private String formatHighLows(double high, double low) {
+
+
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String tempPref = preferences.getString(getString(R.string.pref_temperature_key),getString(R.string.pref_location_default));
+
+
+            if(tempPref.equals(getString(R.string.pref_temperature_imperial)))
+            {
+                high = (high*1.8) +32;
+                low = (low*1.8) +32;
+            }
+            else if(!tempPref.equals(getString(R.string.pref_temperature_metric)))
+            {
+                Log.d(LOG_TAG, "Unit type not found: "+tempPref);
+            }
+
             // For presentation, assume the user doesn't care about tenths of a degree.
             long roundedHigh = Math.round(high);
             long roundedLow = Math.round(low);

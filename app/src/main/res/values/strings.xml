@@ -10,6 +10,12 @@
     <string name="pref_location_label">Location</string>
     <string name="pref_location_key" translatable="false">location</string>
     <string name="pref_location_default" translatable="false">Mississauga</string>
-    <string name="pref_temperature_label" translatable="false">Temperature Settings</string>
+    <string name="pref_temperature_label" >Temperature Settings</string>
+    <string name="pref_temperature_key" translatable="false">temperature</string>
+    <string name="pref_temperature_metric" translatable="false">Metric</string>
+    <string name="pref_temperature_imperial" translatable="false">Imperial</string>
+    <string name="map_location">Map Location</string>
+    <string name="action_share">Share</string>
+
 
 </resources>
