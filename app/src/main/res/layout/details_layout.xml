@@ -44,13 +44,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical">
 
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/detail_high_textview"
-                android:text="20"/>
+                android:text="20"
+                />
 
             <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="wrap_content"
@@ -71,7 +73,6 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src ="@drawable/ic_launcher"
                 android:id="@+id/detail_icon"
                 android:layout_gravity="center_horizontal"/>
 
