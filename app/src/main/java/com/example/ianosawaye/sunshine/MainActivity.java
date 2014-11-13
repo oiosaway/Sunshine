@@ -6,8 +6,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.ianosawaye.sunshine.data.WeatherContract;
 
-public class MainActivity extends ActionBarActivity {
+import java.util.Date;
+
+
+public class MainActivity extends ActionBarActivity implements Callback{
 
     private boolean mTwoPane;
 
@@ -28,8 +32,13 @@ public class MainActivity extends ActionBarActivity {
             // adding or replacing the detail fragment using a
             // fragment transaction.
             if (savedInstanceState == null) {
+                Bundle args = new Bundle();
+                args.putString("DATE", WeatherContract.getDbDateString(new Date()));
+                DetailFragment detailFragment = new DetailFragment();
+                detailFragment.setArguments(args);
+
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.weather_detail_container, new DetailFragment())
+                        .replace(R.id.weather_detail_container, detailFragment)
                         .commit();
             }
         }
@@ -63,6 +72,32 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onItemSelected(String date) {
+
+        if(mTwoPane)
+        {
+
+            // In two-pane mode, show the detail view in this activity by
+            // adding or replacing the detail fragment using a
+            // fragment transaction.
+            Bundle args = new Bundle();
+            args.putString("DATE",date);
+            DetailFragment detailFragment = new DetailFragment();
+            detailFragment.setArguments(args);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.weather_detail_container, detailFragment)
+                        .commit();
+         }
+        else
+        {
+            Intent intent = new Intent(this, DetailActivity.class);
+            intent.putExtra("DATE", date);
+            startActivity(intent);
+        }
+
     }
+}
 
 

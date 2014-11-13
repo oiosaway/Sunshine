@@ -1,6 +1,5 @@
 package com.example.ianosawaye.sunshine;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -96,7 +95,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
         // The ArrayAdapter will take data from a source and
         // use it to populate the ListView it's attached to.
-        mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
+        final MainActivity activity = (MainActivity) getActivity();
+        mForecastAdapter = new ForecastAdapter(activity, null, 0);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -109,9 +109,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Cursor cursor = mForecastAdapter.getCursor();
                 if (cursor != null && cursor.moveToPosition(position)) {
-                    Intent intent = new Intent(getActivity(), DetailActivity.class)
-                            .putExtra(DetailActivity.DATE_KEY, cursor.getString(COL_WEATHER_DATE));
-                    startActivity(intent);
+                    String date = cursor.getString(COL_WEATHER_DATE);
+                    activity.onItemSelected(date);
                 }
             }
         });
