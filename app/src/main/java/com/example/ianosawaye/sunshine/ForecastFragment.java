@@ -64,7 +64,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public static final int COL_LOCATION_SETTING = 5;
     public static final int COL_WEATHER_API_ID = 6;
 
-    public ForecastFragment() {
+    public ForecastFragment( ) {
+
     }
 
     @Override
@@ -90,6 +91,10 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void setUseTodayLayout(boolean type)
+    {
+        mForecastAdapter.setUseTodayType(type);
     }
 
     @Override
