@@ -52,16 +52,19 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:paddingTop="10dp"
+        android:gravity="center_horizontal"
+        >
 
         <FrameLayout
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_horizontal">
+            android:layout_height="100dp">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/list_item_icon"/>
+            android:id="@+id/list_item_icon"
+            />
         </FrameLayout>
 
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -69,7 +72,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/list_item_forecast_textview"
             android:text="Clear"
-            android:layout_gravity="center_horizontal"
             android:fontFamily="sans-serif-condensed"
             android:textAppearance="?android:textAppearanceLarge"
             android:textColor="@color/white"/>
