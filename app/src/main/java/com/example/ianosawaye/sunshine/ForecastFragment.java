@@ -1,9 +1,5 @@
 package com.example.ianosawaye.sunshine;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,7 +19,7 @@ import android.widget.ListView;
 import com.example.ianosawaye.sunshine.data.WeatherContract;
 import com.example.ianosawaye.sunshine.data.WeatherContract.LocationEntry;
 import com.example.ianosawaye.sunshine.data.WeatherContract.WeatherEntry;
-import com.example.ianosawaye.sunshine.service.SunshineService;
+import com.example.ianosawaye.sunshine.sync.SunshineSyncAdapter;
 
 import java.util.Date;
 
@@ -154,6 +150,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void updateWeather() {
+        /*
         String location = Utility.getPreferredLocation(getActivity());
         Intent alarmIntent = new Intent(getActivity(), SunshineService.AlarmReceiver.class);
         alarmIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA,location);
@@ -164,8 +161,10 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
         AlarmManager am=(AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
 
-    //Set the AlarmManager to wake up the system.
-        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
+        //Set the AlarmManager to wake up the system.
+        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);*/
+
+        SunshineSyncAdapter.syncImmediately(getActivity());
     }
 
     @Override
