@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import com.example.ianosawaye.sunshine.data.WeatherContract;
+import com.example.ianosawaye.sunshine.sync.SunshineSyncAdapter;
 
 import java.util.Date;
 
@@ -49,6 +49,7 @@ public class MainActivity extends ActionBarActivity implements Callback{
 
         ForecastFragment forecastFragment = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
         forecastFragment.setUseTodayLayout(!mTwoPane);
+        SunshineSyncAdapter.initializeSyncAdapter(this);
 
     }
 
@@ -61,20 +62,6 @@ public class MainActivity extends ActionBarActivity implements Callback{
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Intent settingsIntent = new Intent(this,SettingsActivity.class);
-            startActivity(settingsIntent);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onItemSelected(String date) {
